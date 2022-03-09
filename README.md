@@ -3,8 +3,9 @@ This conbines `.zshrc` and `.tmux.conf`. They need to be installed separately to
 and `.tmux.conf` by using 
 ```shell
 cd ~
-ln -s .tmux.conf .my-terminal/.tmux.conf
-ln -s .zshrc .my-terminal/.zshrc
+ln -s -f .my-terminal/.tmux.conf
+ln -s -f .my-terminal/.tmux.conf.local
+ln -s -f .my-terminal/.zshrc
 ```
 
 ## tmux
