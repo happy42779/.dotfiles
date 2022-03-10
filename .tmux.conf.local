@@ -327,6 +327,7 @@ tmux_conf_copy_to_os_clipboard=false
 # this is the place to override or undo settings
 bind | split-window -h
 bind - split-window -v 
+
 # increase history size
 #set -g history-limit 10000
 
