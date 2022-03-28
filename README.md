@@ -40,4 +40,19 @@ cd ~
 git clone https://github.com/happy42779/.my-terminal.git
 ln -s -f .my-terminal/.zshrc
 ```
+To install the following plugins:
+   git
+   zsh-autosuggestions
+   `git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions`
+   zsh-syntax-highlighting:
+   `git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting`
+   zsh-completions:   
+   `git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions`
+   web-search
+   vi-mode
+   z
+   dirhistory
+   copybuffer
+   copyfile
+
 
