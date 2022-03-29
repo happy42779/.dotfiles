@@ -129,7 +129,7 @@ alias ws=web_search
 alias gc=google-chrome-stable
 alias vim=nvim
 alias cnv="cd ~/.config/nvim/"
-alias cwm="cd /opt/dwm/dwm*/"
+alias cwm="cd ~/.local/opt/dwm/"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
