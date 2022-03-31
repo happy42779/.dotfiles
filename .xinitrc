@@ -1,15 +1,22 @@
 xset r rate 500 30
 
 # Set up background
-/home/gong/.fehbg &
+~/.fehbg &
 
 # Statusbar 
-dwmstatus 2>&1 >/dev/null &
-#while true; do
-#    xsetroot -name "$( date +"%F %R" )"
-#    sleep 1m
-#done &
+#~/.local/bin/dwm_bar.sh
 
+while true; do
+    xsetroot -name "$( date +"%F %R" )"
+    sleep 1m
+done &
+
+# set locale
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US
+
+# x compositor
+picom -b --config ~/.config/picom.conf
 # start dwm
 exec /usr/local/bin/startdwm
 #exec dwm
