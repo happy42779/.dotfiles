@@ -5,6 +5,10 @@ xset r rate 500 30
 
 # Statusbar 
 #~/.local/bin/dwm_bar.sh
+slstatus &
+
+# fcitx input method
+fcitx5 &
 
 while true; do
     xsetroot -name "$( date +"%F %R" )"
@@ -19,4 +23,4 @@ export LANGUAGE=en_US
 picom -b --config ~/.config/picom.conf
 # start dwm
 exec /usr/local/bin/startdwm
-#exec dwm
+
