@@ -17,7 +17,10 @@
 # --- make a list of dependencies and then check all in one chunk of code
 # TODO
 
-# Getting system release info
+# --- to add checking of the result of each step, to make this robust
+# TODO
+
+
 # giving up to extract it from /etc/os-release
 # just asking
 
@@ -45,14 +48,16 @@ echo ":: Checking if $PACK is installed."
 if ! command -v $PACK &> /dev/null
 then
     echo ":: $PACK is not be found, installing..."
-	$PACKMANAGER $PACK
+    $PACKMANAGER $PACK
+    echo ":: DONE"
 else
 	echo ":: $PACK is installed, proceeding..."
 fi
 
 echo ":: Creating soft link... (.tmux)"
-ln -s -f ~/.dotfiles/.tmux.conf ~/.tmux.conf
-ln -s -f ~/.dotfiles/.tmux.conf.local ~/.tmux.conf.local
+ln -s -f $HOME/.dotfiles/.tmux.conf $HOME/.tmux.conf
+ln -s -f $HOME/.dotfiles/.tmux.conf.local $HOME/.tmux.conf.local
+echo ":: DONE"
 
 
 # installing zsh
@@ -61,13 +66,17 @@ echo ":: Checking if $PACK is installed."
 if ! command -v $PACK &> /dev/null
 then
     echo ":: $PACK is not be found, installing..."
-	$PACKMANAGER $PACK
+    $PACKMANAGER $PACK
+    echo ":: DONE"
 else
 	echo ":: $PACK is installed, proceeding..."
 fi
 
+# changing shell to zsh, if current shell is not zsh
 echo ":: Changing shell to zsh..."
-chsh -s $(which zsh)
+
+shell=$(echo $SHELL)
+[[ ${shell##*/} == "zsh" ]] && echo "zsh is already the default shell, skipping" || (chsh -s $(which zsh) && echo ":: DONE")
 
 # installing ohmyzsh
 # checking if curl is installed
@@ -80,19 +89,18 @@ echo ":: Checking if $PACK is installed."
 if ! command -v $PACK &> /dev/null
 then
     echo ":: $PACK is not be found, installing..."
-	$PACKMANAGER $PACK
+    $PACKMANAGER $PACK
+    echo ":: DONE"
 else
 	echo ":: $PACK is installed, proceeding..."
-
-
 fi
 
-echo ":: Installing ohmyzsh"
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# checking if .oh-my-zsh exists
+[[ -d ~/.oh-my-zsh ]] && echo ".oh-my-zsh folder exists, assuming it's installed correctly" || (echo ":: Installing ohmyzsh" && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && echo ":: DONE")
 
 echo ":: Creating soft link... (.zshrc)"
-ln -s -f ~/.dotfiles/.zshrc ~/.zshrc
-
+ln -s -f $HOME/.dotfiles/.zshrc $HOME/.zshrc
+echo ":: DONE"
 
 #zsh-autosuggestions
 #`git clone https://github.com/zsh-users/zsh-autosuggestions ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions`
@@ -104,22 +112,28 @@ ln -s -f ~/.dotfiles/.zshrc ~/.zshrc
 # installing ohmyzsh plugins
 echo ":: Installing separate plugins for ohmyzsh"
 
-echo ":: Installing zsh-autosuggestions"
-[[ -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]] || (echo "Installed, skip." && git clone https://github.com/zsh-users/zsh-autosuggestions ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions)
+echo "Installing zsh-autosuggestions"
+[[ -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]] && echo "Installed, skip." || (git clone https://github.com/zsh-users/zsh-autosuggestions ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions && echo ":: DONE")
 
-echo ":: Installing zsh-syntax-highlighting"
-[[ -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]] || (echo "Installed, skip." && git clone https://github.com/zsh-users/zsh-syntax-highlighting ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting)
+echo "Installing zsh-syntax-highlighting"
+[[ -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]] && echo "Installed, skip." || (git clone https://github.com/zsh-users/zsh-syntax-highlighting ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting && echo ":: DONE")
 
-echo ":: Installing zsh-completions"
-[[ -d ~/.oh-my-zsh/custom/plugins/zsh-completions ]] || (echo "Installed, skip." && git clone https://github.com/zsh-users/zsh-completions ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-completions)
+echo "Installing zsh-completions"
+[[ -d ~/.oh-my-zsh/custom/plugins/zsh-completions ]] && echo "Installed, skip." || (git clone https://github.com/zsh-users/zsh-completions ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-completions && echo ":: DONE")
 
 
 # use parameter to decide if .xinitrc is needed to be installed into system
 # todo
-[[ $1 == "--dwm" ]] && (echo ":: Installing .xinitrc." && ln -s -f ~/.dotfiles/.xinitrc ~/.xinitrc)
+[[ $1 == "--dwm" ]] && (echo ":: Installing .xinitrc." && ln -s -f $HOME/.dotfiles/.xinitrc $HOME/.xinitrc && echo ":: DONE")
 
 
 # 
 # effect it
 #source ~/.zshrc
-exec zsh -l
+# exec zsh -l
+
+# asking user to reluach the terminal
+echo "Installation completed!"
+echo "======================================================================================"
+echo "===================== PLEASE RELAUNCH YOUR TERMINAL TO USE ZSH ======================="
+echo "======================================================================================"
