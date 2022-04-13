@@ -137,6 +137,7 @@ alias vim=nvim
 alias cnv="cd ~/.config/nvim/"
 alias cwm="cd ~/.local/opt/dwm/"
 alias dot="cd ~/.dotfiles/"
+alias so="source"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
