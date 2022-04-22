@@ -7,7 +7,11 @@
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH="/usr/local/opt/llvm/bin:/$HOME/.local/bin:$PATH"
+export PATH="/usr/local/opt/llvm/bin:$HOME/.local/bin:$PATH"
+# add the following path for bashls mananged by nvim-lsp-installer
+# bash-language-server installed by nvim-lsp-installer is not working
+# can't find the executable, so temporarily installing it manually
+#export PATH="$HOME/.local/share/nvim/lsp_servers/bash/node_modules:$PATH"
 export LDFLAGS="-L/usr/local/opt/llvm/lib"
 export CPPFLAGS="-I/usr/local/opt/llvm/include"
 

@@ -1,4 +1,10 @@
-#!/bin/sh
+#!/bin/dash
+#############################################################################
+# In order to make it compatible with different platforms, here the SHEBANG #
+# is going to be changed into /bin/dash which is the default program for	#
+# Debian.																	# 
+# !!!!!!!!!!!!!!!!!!SHOULD AVOID BASHISM FEATURES!!!!!!!!!!!!!!!!!!!!!!!!!!	#
+#############################################################################
 
 # --- A simple template for the automation checking and installing steps
 # --- There could be more!
@@ -6,7 +12,7 @@
 # installing zsh
 #PACK='zsh'
 #echo "Checking if $PACK is installed."
-#if ! command -v $PACK &> /dev/null
+#if ! command -v $PACK 1> /dev/null
 #then
 #    echo "$PACK is not be found, installing..."
 #	$PACKMANAGER $PACK
@@ -27,7 +33,7 @@
 PACKMANAGER=''
 PACK=''
 while true; do
-	echo -e "What package manager do you use ? \n1. apt \n2. pacman \n3. homebrew"
+	printf "What package manager do you use ? \n1. apt \n2. pacman \n3. homebrew"
 	read -p "Type your choice [1/2/3]: " choice
 	case $choice in
 		1) PACKMANAGER="apt install"
@@ -45,7 +51,7 @@ done
 # installing tmux
 PACK='tmux'
 echo ":: Checking if $PACK is installed."
-if ! command -v $PACK &> /dev/null
+if ! command -v $PACK 1> /dev/null
 then
     echo ":: $PACK is not be found, installing..."
     $PACKMANAGER $PACK
@@ -63,7 +69,7 @@ echo ":: DONE"
 # installing zsh
 PACK='zsh'
 echo ":: Checking if $PACK is installed."
-if ! command -v $PACK &> /dev/null
+if ! command -v $PACK 1> /dev/null
 then
     echo ":: $PACK is not be found, installing..."
     $PACKMANAGER $PACK
@@ -76,7 +82,7 @@ fi
 echo ":: Changing shell to zsh..."
 
 shell=$(echo $SHELL)
-[[ ${shell##*/} == "zsh" ]] && echo "zsh is already the default shell, skipping" || (chsh -s $(which zsh) && echo ":: DONE")
+[ ${shell##*/} = "zsh" ] && echo "zsh is already the default shell, skipping" || (chsh -s $(which zsh) && echo ":: DONE")
 
 # installing ohmyzsh
 # checking if curl is installed
@@ -86,7 +92,7 @@ shell=$(echo $SHELL)
 
 PACK='curl'
 echo ":: Checking if $PACK is installed."
-if ! command -v $PACK &> /dev/null
+if ! command -v $PACK 1> /dev/null
 then
     echo ":: $PACK is not be found, installing..."
     $PACKMANAGER $PACK
@@ -96,7 +102,7 @@ else
 fi
 
 # checking if .oh-my-zsh exists
-[[ -d ~/.oh-my-zsh ]] && echo ".oh-my-zsh folder exists, assuming it's installed correctly" || (echo ":: Installing ohmyzsh" && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && echo ":: DONE")
+[ -d ~/.oh-my-zsh ] && echo ".oh-my-zsh folder exists, assuming it's installed correctly" || (echo ":: Installing ohmyzsh" && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && echo ":: DONE")
 
 echo ":: Creating soft link... (.zshrc)"
 ln -s -f $HOME/.dotfiles/.zshrc $HOME/.zshrc
@@ -113,19 +119,21 @@ echo ":: DONE"
 echo ":: Installing separate plugins for ohmyzsh"
 
 echo "Installing zsh-autosuggestions"
-[[ -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]] && echo "Installed, skip." || (git clone https://github.com/zsh-users/zsh-autosuggestions ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions && echo ":: DONE")
+[ -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ] && echo "Installed, skip." || (git clone https://github.com/zsh-users/zsh-autosuggestions ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions && echo ":: DONE")
 
 echo "Installing zsh-syntax-highlighting"
-[[ -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]] && echo "Installed, skip." || (git clone https://github.com/zsh-users/zsh-syntax-highlighting ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting && echo ":: DONE")
+[ -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ] && echo "Installed, skip." || (git clone https://github.com/zsh-users/zsh-syntax-highlighting ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting && echo ":: DONE")
 
 echo "Installing zsh-completions"
-[[ -d ~/.oh-my-zsh/custom/plugins/zsh-completions ]] && echo "Installed, skip." || (git clone https://github.com/zsh-users/zsh-completions ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-completions && echo ":: DONE")
+[ -d ~/.oh-my-zsh/custom/plugins/zsh-completions ] && echo "Installed, skip." || (git clone https://github.com/zsh-users/zsh-completions ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-completions && echo ":: DONE")
 
 
 # use parameter to decide if .xinitrc is needed to be installed into system
 # todo
-[[ $1 == "--dwm" ]] && (echo ":: Installing .xinitrc." && ln -s -f $HOME/.dotfiles/.xinitrc $HOME/.xinitrc && echo ":: DONE")
-
+if [ $# -eq 1 ]
+then
+	[ $1 = "--dwm" ] && (echo ":: Installing .xinitrc." && ln -s -f $HOME/.dotfiles/.xinitrc $HOME/.xinitrc && echo ":: DONE")
+fi
 
 # 
 # effect it

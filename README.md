@@ -16,6 +16,8 @@ So I have placed my own `.tmux.conf.local` here, and to make it work, do
 ```
 cd ~
 ln -s -f .my-terminal/.tmux.conf.local
+# I have included the .tmux.conf here, so
+ln -s -f .my-terminal/.tmux.conf
 ```
 
 I have set my own key bindings of spliting window as below: (this is the main function I will be using with tmux)
