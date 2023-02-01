@@ -330,6 +330,9 @@ bind - split-window -v
 
 set -g mouse on
 
+set -q -g status-utf8 off                  # expect UTF-8 (tmux < 2.2)
+set -q -g status off
+
 # increase history size
 #set -g history-limit 10000
 
@@ -420,3 +423,13 @@ tmux_conf_uninstall_plugins_on_reload=true
 #
 # "$@"
 # # /!\ do not remove the previous line
+
+# plugins
+# set -g @plugin 'tmux-plugins/tpm'
+# set -g @plugin 'tmux-plugins/tmux-sensible'
+# set -g @plugin 'seebi/tmux-colors-solarized'
+# 
+# # plugin settings
+# set -g @colors-solarized '256'
+# 
+# run '~/.tmux/plugins/tpm/tpm'

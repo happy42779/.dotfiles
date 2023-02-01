@@ -46,7 +46,7 @@ ZSH_THEME="af-magic"
 # DISABLE_UPDATE_PROMPT="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
@@ -99,6 +99,12 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+#
+# Set tmux to run at start of zsh
+if [ -z "$TMUX" ]
+then
+	tmux attach -t mytmux || tmux new -s mytmux
+fi
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -134,7 +140,7 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ra=ranger
 # alias trt=traceroute
-alias h="cd ~"
+# alias h="cd ~"
 alias ws=web_search
 alias gc=google-chrome-stable
 #alias vim=nvim
@@ -142,6 +148,7 @@ alias cnv="cd ~/.config/nvim/"
 alias cwm="cd ~/.local/opt/dwm/"
 alias dot="cd ~/.dotfiles/"
 alias so="source"
+alias prj="cd ~/Projects"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
