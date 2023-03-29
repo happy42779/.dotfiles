@@ -106,6 +106,8 @@ then
 	tmux attach -t mytmux || tmux new -s mytmux
 fi
 
+set -o ignoreeof
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -115,9 +117,11 @@ export LANG=en_US.UTF-8
 export EDITOR=nvim
 
 if [[ "$(uname)"  ==  "Linux" ]]; then
-	export BROWSER=chromium
+	export BROWSER=google
 elif [[ "$(uname)" == "Darwin" ]]; then
 	export BROWSER=safari
+else
+	export BROWSER=google
 fi
 
 # Preferred editor for local and remote sessions
@@ -143,7 +147,7 @@ alias ra=ranger
 # alias h="cd ~"
 alias ws=web_search
 alias gc=google-chrome-stable
-#alias vim=nvim
+alias nv=nvim
 alias cnv="cd ~/.config/nvim/"
 alias cwm="cd ~/.local/opt/dwm/"
 alias dot="cd ~/.dotfiles/"
