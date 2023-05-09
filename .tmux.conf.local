@@ -349,10 +349,11 @@ set -g status off
 # replace C-b by C-a instead of using both prefixes
 set -gu prefix2
 unbind C-a
-unbind C-b
-set -g prefix C-d
+# unbind C-b
+# set -g prefix C-b
 # replace with C-d, as both C-a, C-b conflicts with neovim
-bind C-d send-prefix
+# again use C-b, as C-u is more useful in neovim
+# bind C-b send-prefix
 
 # color settings, without the following setting, tmux will mess up
 # colorschemes of other plugins
