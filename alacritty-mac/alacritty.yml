@@ -1,0 +1,52 @@
+import:
+  # -  ~/.config/alacritty/catppuccin/catppuccin-frappe.yml
+  # -  ~/.config/alacritty/catppuccin/catppuccin-latte.yml
+  -  ~/.config/alacritty/catppuccin/catppuccin-macchiato.yml
+  # -  ~/.config/alacritty/catppuccin/catppuccin-mocha.yml
+
+window:
+  dimensions:
+    columns: 160
+    lines: 80
+
+  decorations: buttonless
+
+  opacity: 0.7
+
+    #startup_mode: SimpleFullscreen
+
+  # Window title
+  #title: Alacritty
+
+  # Allow terminal applications to change Alacritty's window title.
+  dynamic_title: true
+
+
+  scrolling:
+  # Maximum number of lines in the scrollback buffer.
+  # Specifying '0' will disable scrolling.
+    history: 10000
+
+  # Scrolling distance multiplier.
+    multiplier: 3
+
+# Font configuration
+font:
+  # Point size
+  size: 13.0
+  normal: 
+    family: "GoMono Nerd Font Mono"
+    style: Regular
+  bold: 
+    family: "GoMono Nerd Font Mono"
+    style: Bold
+  italic: 
+    family: "VictorMono Nerd Font Mono"
+    style: Light Italic
+  bold_italic: 
+    family: "VictorMono Nerd Font Mono"
+    style: Medium Italic
+
+
+live_config_reload: true
+
