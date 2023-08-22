@@ -161,4 +161,4 @@ alias lg=lazygit
 # To customize prompt, run `p10k configure` or edit ~/.my-terminal/.p10k.zsh.
 # [[ ! -f ~/.my-terminal/.p10k.zsh ]] || source ~/.my-terminal/.p10k.zsh
 
-alias luamake=/home/ian/Downloads/lua-language-server/3rd/luamake/luamake
+# alias luamake=/home/ian/Downloads/lua-language-server/3rd/luamake/luamake
