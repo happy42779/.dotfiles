@@ -116,10 +116,10 @@ export LANG=en_US.UTF-8
 # System specific settings
 export EDITOR=nvim
 
-if [[ "$(uname)"  ==  "Linux" ]]; then
-	export BROWSER=google
-elif [[ "$(uname)" == "Darwin" ]]; then
+if [[ "$(uname)" == "Darwin" ]]; then
 	export BROWSER=safari
+elif [[ "$(uname -r)" == *WSL* ]]; then
+	export BROWSER="/mnt/c/Program Files/google/Chrome/Application/chrome.exe"
 else
 	export BROWSER=google
 fi
