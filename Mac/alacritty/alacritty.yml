@@ -29,6 +29,7 @@ window:
 
   # Scrolling distance multiplier.
     multiplier: 3
+    option_as_alt: true
 
 # Font configuration
 font:
