@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-#fi
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH="/usr/local/opt/llvm/bin:$HOME/.local/bin:$PATH"
@@ -23,8 +16,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="af-magic"
-#ZSH_THEME="powerlevel10k/powerlevel10k"
-
+# ZSH_THEME="agnoster"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -103,8 +95,16 @@ source $ZSH/oh-my-zsh.sh
 # Set tmux to run at start of zsh
 if [ -z "$TMUX" ]
 then
-	tmux attach -t mytmux || tmux new -s mytmux
+	tmux new -s mytmux
+else
+	:
 fi
+
+
+# it's kind of overwhelming to attach tmux whenever I start a new one,
+# therefore, disabling it, and provide alias
+# alias tmux="tmux new -s mytmux"
+alias tmuxa="tmux attach -t mytmux"
 
 set -o ignoreeof
 
@@ -116,8 +116,13 @@ export LANG=en_US.UTF-8
 # System specific settings
 export EDITOR=nvim
 
+# set terminfo to be alacritty
+export TERM=alacritty
+
 if [[ "$(uname)" == "Darwin" ]]; then
 	export BROWSER=safari
+	# set commands to start aria2 for macos
+	alias start-aria2="aria2c --conf-path="\""/Users/gong/.aria2/aria2.conf\""
 elif [[ "$(uname -r)" == *WSL* ]]; then
 	export BROWSER="/mnt/c/Program Files/google/Chrome/Application/chrome.exe"
 else
@@ -154,11 +159,5 @@ alias dot="cd ~/.dotfiles/"
 alias so="source"
 alias prj="cd ~/Projects"
 alias lg=lazygit
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# To customize prompt, run `p10k configure` or edit ~/.my-terminal/.p10k.zsh.
-# [[ ! -f ~/.my-terminal/.p10k.zsh ]] || source ~/.my-terminal/.p10k.zsh
 
 # alias luamake=/home/ian/Downloads/lua-language-server/3rd/luamake/luamake
