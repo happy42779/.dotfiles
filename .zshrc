@@ -116,11 +116,10 @@ export LANG=en_US.UTF-8
 # System specific settings
 export EDITOR=nvim
 
-# set terminfo to be alacritty
-export TERM=alacritty
-
 if [[ "$(uname)" == "Darwin" ]]; then
 	export BROWSER=safari
+	# set terminfo to be alacritty
+	export TERM=alacritty
 	# set commands to start aria2 for macos
 	alias start-aria2="aria2c --conf-path="\""/Users/gong/.aria2/aria2.conf\""
 elif [[ "$(uname -r)" == *WSL* ]]; then
