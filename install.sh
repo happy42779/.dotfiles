@@ -2,7 +2,7 @@
 #############################################################################
 # In order to make it compatible with different platforms, here the SHEBANG #
 # is going to be changed into /bin/dash which is the default program for	#
-# Debian.																	# 
+# Debian.																	#
 # !!!!!!!!!!!!!!!!!!SHOULD AVOID BASHISM FEATURES!!!!!!!!!!!!!!!!!!!!!!!!!!	#
 #############################################################################
 
@@ -25,7 +25,6 @@
 
 # --- to add checking of the result of each step, to make this robust
 # TODO
-
 
 # giving up to extract it from /etc/os-release
 # just asking
@@ -51,10 +50,9 @@ PACKS="curl git zsh tmux"
 
 denpendency_not_met=''
 echo ":: Checking dependencies..."
-for PACK in $PACKS;do
-echo ":: Checking if $PACK is installed ..."
-	if ! command -v $PACK 1> /dev/null
-	then
+for PACK in $PACKS; do
+	echo ":: Checking if $PACK is installed ..."
+	if ! command -v $PACK 1>/dev/null; then
 		echo "$PACK is not installed "
 		#printf '\u274c\n'
 		$dependency_not_met=true
@@ -68,7 +66,6 @@ if [ "$dependency_not_met" = true ]; then
 	echo "One or more dependencies are not met, please intall them first!"
 	exit
 fi
-
 
 # changing shell to zsh, if current shell is not zsh
 echo ":: Changing shell to zsh..."
@@ -88,7 +85,7 @@ echo ":: DONE"
 #`git clone https://github.com/zsh-users/zsh-autosuggestions ${zsh_custom:-${zsh:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions`
 #zsh-syntax-highlighting:
 #`git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting`
-#zsh-completions:   
+#zsh-completions:
 #`git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions`
 
 # installing ohmyzsh plugins
@@ -110,12 +107,11 @@ echo ":: DONE"
 
 # use parameter to decide if .xinitrc is needed to be installed into system
 # todo
-if [ $# -eq 1 ]
-then
+if [ $# -eq 1 ]; then
 	[ $1 = "--dwm" ] && (echo ":: Installing .xinitrc." && ln -s -f $HOME/.dotfiles/.xinitrc $HOME/.xinitrc && echo ":: DONE")
 fi
 
-# 
+#
 # effect it
 #source ~/.zshrc
 # exec zsh -l

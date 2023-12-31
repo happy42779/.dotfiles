@@ -123,7 +123,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
 	# set commands to start aria2 for macos
 	alias start-aria2="aria2c --conf-path="\""/Users/gong/.aria2/aria2.conf\""
 elif [[ "$(uname -r)" == *WSL* ]]; then
-	export BROWSER="/mnt/c/Program Files/google/Chrome/Application/chrome.exe"
+	export BROWSER="/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
 else
 	export BROWSER=google
 fi
@@ -152,11 +152,17 @@ alias ra=ranger
 alias ws=web_search
 alias gc=google-chrome-stable
 alias nv=nvim
+alias vim=nvim
 alias cnv="cd ~/.config/nvim/"
 alias cwm="cd ~/.local/opt/dwm/"
 alias dot="cd ~/.dotfiles/"
 alias so="source"
 alias prj="cd ~/Projects"
 alias lg=lazygit
+alias gpt="cd ~/.local/bin/shell-gpt && source ~/.local/bin/shell-gpt/bin/activate"
+alias clangfmt="clang-format --dump-config --style=\"{BasedOnStyle: LLVM, IndentWidth: 4}\" > .clang-format"
 
 # alias luamake=/home/ian/Downloads/lua-language-server/3rd/luamake/luamake
+#
+# source OPENAI-API-KEY
+source ~/.OPENAI-API-KEY
