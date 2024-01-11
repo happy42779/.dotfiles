@@ -165,4 +165,7 @@ alias clangfmt="clang-format --dump-config --style=\"{BasedOnStyle: LLVM, Indent
 # alias luamake=/home/ian/Downloads/lua-language-server/3rd/luamake/luamake
 #
 # source OPENAI-API-KEY
-source ~/.OPENAI-API-KEY
+# source ~/.OPENAI-API-KEY
+#
+# for gpg
+export GPG_TTY=$(tty)
