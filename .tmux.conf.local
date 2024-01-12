@@ -357,7 +357,7 @@ unbind C-a
 
 # color settings, without the following setting, tmux will mess up
 # colorschemes of other plugins
- set -g default-terminal "tmux-256color"
+ # set -g default-terminal "tmux-256color"
 # set -g default-terminal "screen-256color"
 set-option -as terminal-overrides ",xterm-256color:RGB"
 
