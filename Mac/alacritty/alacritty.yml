@@ -1,17 +1,19 @@
 import:
-  # -  ~/.config/alacritty/catppuccin/catppuccin-frappe.yml
-  # -  ~/.config/alacritty/catppuccin/catppuccin-latte.yml
-  -  ~/.config/alacritty/catppuccin/catppuccin-macchiato.yml
-  # -  ~/.config/alacritty/catppuccin/catppuccin-mocha.yml
+  # -  ~/.dotfiles/Ma/alacritty/catppuccin/catppuccin-frappe.yml
+  # -  ~/.dotfiles/Ma/alacritty/catppuccin/catppuccin-latte.yml
+  -  ~/.dotfiles/Mac/alacritty/catppuccin/catppuccin-macchiato.yml
+  # -  ~/.dotfiles/Ma/alacritty/catppuccin/catppuccin-mocha.yml
 
 window:
   dimensions:
-    columns: 120
-    lines: 50
+    columns: 130
+    lines: 70
 
   decorations: buttonless
 
-  opacity: 0.7
+  option_as_alt: OnlyLeft
+
+  opacity: 0.95
 
     #startup_mode: SimpleFullscreen
 
@@ -29,34 +31,37 @@ window:
 
   # Scrolling distance multiplier.
     multiplier: 3
-    option_as_alt: true
+
 
 # Font configuration
 font:
   # Point size
   size: 13.0
-  normal: 
-    family: "GoMono Nerd Font Mono"
+  normal:
+    family: "JetBrainsMono Nerd Font Mono"
+    style: Light
+  bold:
+    # family: "JetBrainsMono Nerd Font Mono"
     style: Regular
-  bold: 
-    family: "GoMono Nerd Font Mono"
-    style: Bold
-  italic: 
-    family: "VictorMono Nerd Font Mono"
+  italic:
+    # family: "VictorMono Nerd Font Mono"
     style: Light Italic
-  bold_italic: 
-    family: "VictorMono Nerd Font Mono"
-    style: Medium Italic
+  bold_italic:
+    # family: "VictorMono Nerd Font Mono"
+    style: SemiBold Italic
 
   offset:
     x: 1
     y: 1
-  glyph_offset:
-    x: 0
-    y: 0
+  # glyph_offset:
+  #   x: 0
+  #   y: 0
 
   draw_bold_text_with_bright_colors: true
   transparent_background_colors: true
 
-live_config_reload: true
+cursor:
+  blinking: never
 
+
+live_config_reload: true
