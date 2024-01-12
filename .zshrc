@@ -162,7 +162,10 @@ alias lg=lazygit
 alias gpt="cd ~/.local/bin/shell-gpt && source ~/.local/bin/shell-gpt/bin/activate"
 alias clangfmt="clang-format --dump-config --style=\"{BasedOnStyle: LLVM, IndentWidth: 4}\" > .clang-format"
 
-# alias luamake=/home/ian/Downloads/lua-language-server/3rd/luamake/luamake
 #
 # source OPENAI-API-KEY
 source ~/.OPENAI-API-KEY
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
