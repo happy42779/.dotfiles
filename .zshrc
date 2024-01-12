@@ -117,13 +117,14 @@ export LANG=en_US.UTF-8
 export EDITOR=nvim
 
 if [[ "$(uname)" == "Darwin" ]]; then
-	export BROWSER=safari
 	# set terminfo to be alacritty
-	export TERM=alacritty
+	# export TERM=alacritty
 	# set commands to start aria2 for macos
 	alias start-aria2="aria2c --conf-path="\""/Users/gong/.aria2/aria2.conf\""
+	export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git"
+	export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
 elif [[ "$(uname -r)" == *WSL* ]]; then
-	export BROWSER="/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
+	export BROWSER="/mnt/c/Program Files/google/Chrome/Application/chrome.exe"
 else
 	export BROWSER=google
 fi
@@ -162,9 +163,11 @@ alias lg=lazygit
 alias gpt="cd ~/.local/bin/shell-gpt && source ~/.local/bin/shell-gpt/bin/activate"
 alias clangfmt="clang-format --dump-config --style=\"{BasedOnStyle: LLVM, IndentWidth: 4}\" > .clang-format"
 
-#
-# source OPENAI-API-KEY
+# environment variables
 source ~/.OPENAI-API-KEY
+
+# for gpg
+export GPG_TTY=$(tty)
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
