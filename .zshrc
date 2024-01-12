@@ -117,13 +117,16 @@ export LANG=en_US.UTF-8
 export EDITOR=nvim
 
 if [[ "$(uname)" == "Darwin" ]]; then
-	export BROWSER=safari
 	# set terminfo to be alacritty
-	export TERM=alacritty
+	# export TERM=alacritty
 	# set commands to start aria2 for macos
 	alias start-aria2="aria2c --conf-path="\""/Users/gong/.aria2/aria2.conf\""
+	export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git"
+	export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
 elif [[ "$(uname -r)" == *WSL* ]]; then
 	export BROWSER="/mnt/c/Program Files/google/Chrome/Application/chrome.exe"
+elif  [[ "$(uname -r)" == *arch* ]]; then
+
 else
 	export BROWSER=google
 fi
