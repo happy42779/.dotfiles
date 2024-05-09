@@ -170,7 +170,7 @@ alias gpt="cd ~/.local/bin/shell-gpt && source ~/.local/bin/shell-gpt/bin/activa
 alias clangfmt="clang-format --dump-config --style=\"{BasedOnStyle: LLVM, IndentWidth: 4}\" > .clang-format"
 
 # environment variables
-source ~/.OPENAI-API-KEY
+# source ~/.OPENAI-API-KEY
 
 # for gpg
 export GPG_TTY=$(tty)

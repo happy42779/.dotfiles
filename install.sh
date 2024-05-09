@@ -42,7 +42,8 @@ done
 echo ":: Changing shell to zsh..."
 
 shell=$(echo $SHELL)
-[ ${shell##*/} = "zsh" ] && echo "zsh is already the default shell, skipping" || (chsh -s $(which zsh) && echo ":: DONE")
+# [ ${shell##*/} = "zsh" ] && echo "zsh is already the default shell, skipping" || (chsh -s $(which zsh) && echo ":: DONE")
+[ ${shell##*/} = "zsh" ] && echo "zsh is already the default shell, skipping" || (echo ":: DONE")
 
 # checking if .oh-my-zsh exists
 echo ":: Installing .ohmyzsh"
@@ -82,6 +83,6 @@ fi
 
 # asking user to reluach the terminal
 echo "Installation completed!"
-echo "======================================================================================"
-echo "===================== PLEASE RELAUNCH YOUR TERMINAL TO USE ZSH ======================="
-echo "======================================================================================"
+echo "================================================================================="
+echo "================ PLEASE RELAUNCH YOUR TERMINAL TO USE ZSH ======================="
+echo "================================================================================="
