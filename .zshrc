@@ -123,6 +123,8 @@ if [[ "$(uname)" == "Darwin" ]]; then
 	alias start-aria2="aria2c --conf-path="\""/Users/gong/.aria2/aria2.conf\""
 	export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git"
 	export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
+	export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
+	export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
 elif [[ "$(uname -r)" == *WSL* ]]; then
 	export BROWSER="/mnt/c/Program Files/google/Chrome/Application/chrome.exe"
 else
