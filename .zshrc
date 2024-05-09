@@ -8,6 +8,9 @@ export PATH="/usr/local/opt/llvm/bin:$HOME/.local/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/llvm/lib"
 export CPPFLAGS="-I/usr/local/opt/llvm/include"
 
+# path for grpc
+export PATH="$PATH:$(go env GOPATH)/bin"
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -93,18 +96,19 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 #
 # Set tmux to run at start of zsh
-if [ -z "$TMUX" ]
-then
-	tmux new -s mytmux
-else
-	:
-fi
+# if [ -z "$TMUX" ]
+# then
+# 	tmux new -s mytmux
+# else
+# 	tmux new -s test:
+# fi
 
 
 # it's kind of overwhelming to attach tmux whenever I start a new one,
 # therefore, disabling it, and provide alias
 # alias tmux="tmux new -s mytmux"
 alias tmuxa="tmux attach -t mytmux"
+alias tmuxs="tmux new -A -s mytmux"
 
 set -o ignoreeof
 
@@ -170,6 +174,8 @@ source ~/.OPENAI-API-KEY
 
 # for gpg
 export GPG_TTY=$(tty)
+
+
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
