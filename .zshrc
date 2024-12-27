@@ -154,6 +154,7 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ra=ranger
+alias yz=yazi
 # alias trt=traceroute
 # alias h="cd ~"
 alias ws=web_search

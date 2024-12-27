@@ -14,7 +14,7 @@ UNKNOWN_PACKMGR=''
 PACKS="curl git zsh tmux gpg pass wget"
 
 if [[ "$(uname)" == "Darwin" ]]; then
-	PACKMANAGER="sudo brew install"
+	PACKMANAGER="brew install"
 elif [[ "$(cat /etc/os-release | grep -E '^NAME=')" == *Debian* ]]; then
 	PACKMANAGER="sudo apt install"
 elif [[ "$(cat /etc/os-release | grep -E '^NAME=')" == *Arch* ]]; then
