@@ -109,7 +109,7 @@ install_homebrew() {
   chmod +x "$BREW_INSTALL_SCRIPT"
 
   # Run the installation script (it will use our exported variables)
-  NONINTERACTIVE=1 "$BREW_INSTALL_SCRIPT" || {
+  /bin/bash -c "$BREW_INSTALL_SCRIPT" || {
     print_error "Failed to install Homebrew"
     rm -f "$BREW_INSTALL_SCRIPT"
     exit 1
