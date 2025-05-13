@@ -8,8 +8,10 @@ export PATH="/usr/local/opt/llvm/bin:$HOME/.local/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/llvm/lib"
 export CPPFLAGS="-I/usr/local/opt/llvm/include"
 
-# path for grpc
-export PATH="$PATH:$(go env GOPATH)/bin"
+# set path for grpc
+if command -v go &> /dev/null; then
+	export PATH="$PATH:$(go env GOPATH)/bin"
+fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -18,8 +20,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="af-magic"
-# ZSH_THEME="agnoster"
+ZSH_THEME="apple"
+# ZSH_THEME="amuse"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -125,10 +127,13 @@ if [[ "$(uname)" == "Darwin" ]]; then
 	# export TERM=alacritty
 	# set commands to start aria2 for macos
 	alias start-aria2="aria2c --conf-path="\""/Users/gong/.aria2/aria2.conf\""
+	# set homebrew path
+  eval $(/opt/homebrew/bin/brew shellenv)
 	export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git"
 	export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
 	export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
 	export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
+  export HOMEBREW_INSTALL_FROM_API=1
 elif [[ "$(uname -r)" == *WSL* ]]; then
 	export BROWSER="/mnt/c/Program Files/google/Chrome/Application/chrome.exe"
 else
@@ -177,7 +182,7 @@ alias clangfmt="clang-format --dump-config --style=\"{BasedOnStyle: LLVM, Indent
 export GPG_TTY=$(tty)
 
 
-
+# for the installation of nodejs and npm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

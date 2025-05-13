@@ -1,88 +1,270 @@
 #!/bin/bash
-#############################################################################
-# In order to make it compatible with different platforms, here the SHEBANG #
-# is going to be changed into /bin/dash which is the default program for	#
-# Debian.																	#
-# !!!!!!!!!!!!!!!!!!SHOULD AVOID BASHISM FEATURES!!!!!!!!!!!!!!!!!!!!!!!!!!	#
-#############################################################################
+#
+# ZSH Setup Script
+# Installs Oh My Zsh and popular plugins (completions, syntax highlighting, autosuggestions)
+# Compatible with macOS, Debian, Ubuntu, Arch Linux, and more
 
-# --- A simple template for the automation checking and installing steps
-# --- There could be more!
+set -e # Exit immediately if a command exits with a non-zero status
 
-PACKMANAGER=''
-UNKNOWN_PACKMGR=''
+# Text formatting
+BOLD=$(tput bold)
+NORMAL=$(tput sgr0)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+RED=$(tput setaf 1)
+
+# Print formatted messages
+print_info() { echo "${BLUE}${BOLD}INFO:${NORMAL} $1"; }
+print_success() { echo "${GREEN}${BOLD}SUCCESS:${NORMAL} $1"; }
+print_warning() { echo "${YELLOW}${BOLD}WARNING:${NORMAL} $1"; }
+print_error() { echo "${RED}${BOLD}ERROR:${NORMAL} $1"; }
+
+# Required packages
 PACKS="curl git zsh tmux gpg pass wget"
 
-if [[ "$(uname)" == "Darwin" ]]; then
-	PACKMANAGER="brew install"
-elif [[ "$(cat /etc/os-release | grep -E '^NAME=')" == *Debian* ]]; then
-	PACKMANAGER="sudo apt install"
-elif [[ "$(cat /etc/os-release | grep -E '^NAME=')" == *Arch* ]]; then
-	PACKMANAGER="sudo pacman -S"
-else
-	echo "Unknown distro! Please specify a package manager, and the action to install:"
-	echo "Eg: apt install"
-	read UNKNOWN_PACKMGR
+# Detect package manager
+detect_package_manager() {
+  print_info "Detecting package manager..."
 
-	PACKMANAGER="sudo $(UNKNOWN_PACKMGR)"
-fi
+  if [[ "$(uname)" == "Darwin" ]]; then
+    if ! command -v brew &>/dev/null; then
+      print_error "Homebrew not found. Please install brew first: https://brew.sh/"
+      exit 1
+    fi
+    PACKMANAGER="brew install"
+    print_success "Using Homebrew package manager"
+  elif command -v apt &>/dev/null; then
+    PACKMANAGER="sudo apt install -y"
+    print_success "Using apt package manager"
+  elif command -v apt-get &>/dev/null; then
+    PACKMANAGER="sudo apt-get install -y"
+    print_success "Using apt-get package manager"
+  elif command -v dnf &>/dev/null; then
+    PACKMANAGER="sudo dnf install -y"
+    print_success "Using dnf package manager"
+  elif command -v yum &>/dev/null; then
+    PACKMANAGER="sudo yum install -y"
+    print_success "Using yum package manager"
+  elif command -v pacman &>/dev/null; then
+    PACKMANAGER="sudo pacman -S --noconfirm"
+    print_success "Using pacman package manager"
+  elif command -v zypper &>/dev/null; then
+    PACKMANAGER="sudo zypper install -y"
+    print_success "Using zypper package manager"
+  else
+    print_warning "Unknown package manager."
+    echo "Please specify your package manager command (e.g., 'apt install'):"
+    read -r user_packmanager
+    PACKMANAGER="sudo $user_packmanager"
+    print_info "Using custom package manager: $PACKMANAGER"
+  fi
+}
 
-echo ":: Checking dependencies..."
-for PACK in $PACKS; do
-	echo ":: Checking if $PACK is installed ..."
-	if ! command -v $PACK 1>/dev/null; then
-		echo "$PACK is not installed, installing... "
-		$PACKMANAGER $PACK
-	else
-		echo "$PACK is already installed, skipping..."
-	fi
-done
+# Install dependencies
+install_dependencies() {
+  print_info "Checking and installing dependencies..."
 
-# changing shell to zsh, if current shell is not zsh
-echo ":: Changing shell to zsh..."
+  for PACK in $PACKS; do
+    if ! command -v "$PACK" &>/dev/null; then
+      print_info "Installing $PACK..."
+      $PACKMANAGER "$PACK" || {
+        print_error "Failed to install $PACK"
+        exit 1
+      }
+      print_success "$PACK installed"
+    else
+      print_success "$PACK is already installed"
+    fi
+  done
+}
 
-shell=$(echo $SHELL)
-# [ ${shell##*/} = "zsh" ] && echo "zsh is already the default shell, skipping" || (chsh -s $(which zsh) && echo ":: DONE")
-[ ${shell##*/} = "zsh" ] && echo "zsh is already the default shell, skipping" || (echo ":: DONE")
+# Install Oh My Zsh
+install_oh_my_zsh() {
+  print_info "Checking for Oh My Zsh installation..."
 
-# checking if .oh-my-zsh exists
-echo ":: Installing .ohmyzsh"
-[ -d "$HOME/.oh-my-zsh" ] && echo ".oh-my-zsh folder exists, assuming it's installed correctly" || (echo ":: Installing ohmyzsh" && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && echo ":: DONE")
+  if [ -d "$HOME/.oh-my-zsh" ]; then
+    print_success "Oh My Zsh is already installed"
+  else
+    print_info "Installing Oh My Zsh..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || {
+      print_error "Failed to install Oh My Zsh"
+      exit 1
+    }
+    print_success "Oh My Zsh installed"
+  fi
+}
 
-echo ":: Creating soft link... (.zshrc)"
-ln -s -f $HOME/.dotfiles/.zshrc $HOME/.zshrc
-echo ":: DONE"
+# Install zsh plugins
+install_plugins() {
+  print_info "Installing zsh plugins..."
 
-# installing ohmyzsh plugins
-echo ":: Installing separate plugins for ohmyzsh"
+  ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
-echo "Installing zsh-autosuggestions"
-[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ] && echo "Installed, skip." || (git clone https://github.com/zsh-users/zsh-autosuggestions ${zsh_custom:-${zsh:-$HOME/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions && echo ":: DONE")
+  # Install zsh-autosuggestions
+  if [ -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+    print_success "zsh-autosuggestions already installed"
+  else
+    print_info "Installing zsh-autosuggestions..."
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions" || {
+      print_error "Failed to install zsh-autosuggestions"
+      exit 1
+    }
+    print_success "zsh-autosuggestions installed"
+  fi
 
-echo "Installing zsh-syntax-highlighting"
-[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ] && echo "Installed, skip." || (git clone https://github.com/zsh-users/zsh-syntax-highlighting ${zsh_custom:-${zsh:-$HOME/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting && echo ":: DONE")
+  # Install zsh-syntax-highlighting
+  if [ -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+    print_success "zsh-syntax-highlighting already installed"
+  else
+    print_info "Installing zsh-syntax-highlighting..."
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" || {
+      print_error "Failed to install zsh-syntax-highlighting"
+      exit 1
+    }
+    print_success "zsh-syntax-highlighting installed"
+  fi
 
-echo "Installing zsh-completions"
-[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-completions" ] && echo "Installed, skip." || (git clone https://github.com/zsh-users/zsh-completions ${zsh_custom:-${zsh:-$HOME/.oh-my-zsh}/custom}/plugins/zsh-completions && echo ":: DONE")
+  # Install zsh-completions
+  if [ -d "$ZSH_CUSTOM/plugins/zsh-completions" ]; then
+    print_success "zsh-completions already installed"
+  else
+    print_info "Installing zsh-completions..."
+    git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM/plugins/zsh-completions" || {
+      print_error "Failed to install zsh-completions"
+      exit 1
+    }
+    print_success "zsh-completions installed"
+  fi
+}
 
-echo ":: Creating soft link... (.tmux)"
-ln -s -f $HOME/.dotfiles/.tmux.conf $HOME/.tmux.conf
-ln -s -f $HOME/.dotfiles/.tmux.conf.local $HOME/.tmux.conf.local
-echo ":: DONE"
+# Setup configuration files
+setup_config_files() {
+  print_info "Setting up configuration files..."
 
-# use parameter to decide if .xinitrc is needed to be installed into system
-# todo
-if [ $# -eq 1 ]; then
-	[ $1 = "--dwm" ] && (echo ":: Installing .xinitrc." && ln -s -f $HOME/.dotfiles/.xinitrc $HOME/.xinitrc && echo ":: DONE")
-fi
+  # Check for .dotfiles directory
+  if [ ! -d "$HOME/.dotfiles" ]; then
+    print_warning ".dotfiles directory not found in your home directory."
+    echo "Do you want to create the .dotfiles directory? (y/n)"
+    read -r create_dotfiles
 
-#
-# effect it
-#source ~/.zshrc
-# exec zsh -l
+    if [[ "$create_dotfiles" =~ ^[Yy]$ ]]; then
+      mkdir -p "$HOME/.dotfiles"
+      print_success "Created .dotfiles directory"
+    else
+      print_warning "Skipping symlink creation for configuration files"
+      return
+    fi
+  fi
 
-# asking user to reluach the terminal
-echo "Installation completed!"
-echo "================================================================================="
-echo "================ PLEASE RELAUNCH YOUR TERMINAL TO USE ZSH ======================="
-echo "================================================================================="
+  # Configure .zshrc
+  if [ -f "$HOME/.dotfiles/.zshrc" ]; then
+    print_info "Creating symlink for .zshrc..."
+    ln -sf "$HOME/.dotfiles/.zshrc" "$HOME/.zshrc"
+    print_success ".zshrc symlink created"
+  else
+    print_warning ".dotfiles/.zshrc not found, creating a basic one..."
+
+    # Create a basic .zshrc that enables the plugins
+    cat >"$HOME/.dotfiles/.zshrc" <<'EOL'
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set theme
+ZSH_THEME="robbyrussell"
+
+# Add plugins
+plugins=(
+    git
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    zsh-completions
+)
+
+# Load completions
+autoload -U compinit && compinit
+
+# Source Oh My Zsh
+source $ZSH/oh-my-zsh.sh
+EOL
+
+    ln -sf "$HOME/.dotfiles/.zshrc" "$HOME/.zshrc"
+    print_success "Created basic .zshrc and symlink"
+  fi
+
+  # Configure tmux if files exist
+  if [ -f "$HOME/.dotfiles/.tmux.conf" ]; then
+    print_info "Creating symlink for .tmux.conf..."
+    ln -sf "$HOME/.dotfiles/.tmux.conf" "$HOME/.tmux.conf"
+    print_success ".tmux.conf symlink created"
+  else
+    print_warning ".dotfiles/.tmux.conf not found, skipping"
+  fi
+
+  if [ -f "$HOME/.dotfiles/.tmux.conf.local" ]; then
+    print_info "Creating symlink for .tmux.conf.local..."
+    ln -sf "$HOME/.dotfiles/.tmux.conf.local" "$HOME/.tmux.conf.local"
+    print_success ".tmux.conf.local symlink created"
+  else
+    print_warning ".dotfiles/.tmux.conf.local not found, skipping"
+  fi
+
+  # Handle optional .xinitrc for X11 window manager
+  if [ "$1" = "--dwm" ] && [ -f "$HOME/.dotfiles/.xinitrc" ]; then
+    print_info "Creating symlink for .xinitrc (DWM option detected)..."
+    ln -sf "$HOME/.dotfiles/.xinitrc" "$HOME/.xinitrc"
+    print_success ".xinitrc symlink created"
+  fi
+}
+
+# Change shell to zsh
+change_shell() {
+  print_info "Checking current shell..."
+
+  if [[ "$SHELL" == *"zsh"* ]]; then
+    print_success "zsh is already your default shell"
+  else
+    echo "Do you want to set zsh as your default shell? (y/n)"
+    read -r change_to_zsh
+
+    if [[ "$change_to_zsh" =~ ^[Yy]$ ]]; then
+      zsh_path=$(which zsh)
+
+      if chsh -s "$zsh_path"; then
+        print_success "Default shell changed to zsh"
+      else
+        print_error "Failed to change shell. Try running: chsh -s $(which zsh)"
+      fi
+    else
+      print_warning "Shell unchanged. You can manually change it later with: chsh -s $(which zsh)"
+    fi
+  fi
+}
+
+# Main function
+main() {
+  clear
+  echo "${BOLD}${BLUE}==============================================${NORMAL}"
+  echo "${BOLD}${BLUE}  ZSH Setup with Oh My Zsh and Plugins       ${NORMAL}"
+  echo "${BOLD}${BLUE}==============================================${NORMAL}"
+  echo
+
+  detect_package_manager
+  install_dependencies
+  install_oh_my_zsh
+  install_plugins
+  setup_config_files "$@"
+  change_shell
+
+  echo
+  echo "${BOLD}${GREEN}==============================================${NORMAL}"
+  echo "${BOLD}${GREEN}  Installation Complete!                     ${NORMAL}"
+  echo "${BOLD}${GREEN}==============================================${NORMAL}"
+  echo
+  echo "To start using zsh right now, run: ${BOLD}exec zsh${NORMAL}"
+  echo "Or simply restart your terminal."
+  echo
+}
+
+# Run the main function with all provided arguments
+main "$@"
