@@ -200,63 +200,63 @@ install_dependencies() {
 }
 
 # Install Oh My Zsh
-install_oh_my_zsh() {
-  print_info "Checking for Oh My Zsh installation..."
-
-  if [ -d "$HOME/.oh-my-zsh" ]; then
-    print_success "Oh My Zsh is already installed"
-  else
-    print_info "Installing Oh My Zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || {
-      print_error "Failed to install Oh My Zsh"
-      exit 1
-    }
-    print_success "Oh My Zsh installed"
-  fi
-}
+# install_oh_my_zsh() {
+#   print_info "Checking for Oh My Zsh installation..."
+#
+#   if [ -d "$HOME/.oh-my-zsh" ]; then
+#     print_success "Oh My Zsh is already installed"
+#   else
+#     print_info "Installing Oh My Zsh..."
+#     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || {
+#       print_error "Failed to install Oh My Zsh"
+#       exit 1
+#     }
+#     print_success "Oh My Zsh installed"
+#   fi
+# }
 
 # Install zsh plugins
-install_plugins() {
-  print_info "Installing zsh plugins..."
-
-  ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
-
-  # Install zsh-autosuggestions
-  if [ -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
-    print_success "zsh-autosuggestions already installed"
-  else
-    print_info "Installing zsh-autosuggestions..."
-    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions" || {
-      print_error "Failed to install zsh-autosuggestions"
-      exit 1
-    }
-    print_success "zsh-autosuggestions installed"
-  fi
-
-  # Install zsh-syntax-highlighting
-  if [ -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
-    print_success "zsh-syntax-highlighting already installed"
-  else
-    print_info "Installing zsh-syntax-highlighting..."
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" || {
-      print_error "Failed to install zsh-syntax-highlighting"
-      exit 1
-    }
-    print_success "zsh-syntax-highlighting installed"
-  fi
-
-  # Install zsh-completions
-  if [ -d "$ZSH_CUSTOM/plugins/zsh-completions" ]; then
-    print_success "zsh-completions already installed"
-  else
-    print_info "Installing zsh-completions..."
-    git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM/plugins/zsh-completions" || {
-      print_error "Failed to install zsh-completions"
-      exit 1
-    }
-    print_success "zsh-completions installed"
-  fi
-}
+# install_plugins() {
+#   print_info "Installing zsh plugins..."
+#
+#   ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+#
+#   # Install zsh-autosuggestions
+#   if [ -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+#     print_success "zsh-autosuggestions already installed"
+#   else
+#     print_info "Installing zsh-autosuggestions..."
+#     git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions" || {
+#       print_error "Failed to install zsh-autosuggestions"
+#       exit 1
+#     }
+#     print_success "zsh-autosuggestions installed"
+#   fi
+#
+#   # Install zsh-syntax-highlighting
+#   if [ -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+#     print_success "zsh-syntax-highlighting already installed"
+#   else
+#     print_info "Installing zsh-syntax-highlighting..."
+#     git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" || {
+#       print_error "Failed to install zsh-syntax-highlighting"
+#       exit 1
+#     }
+#     print_success "zsh-syntax-highlighting installed"
+#   fi
+#
+#   # Install zsh-completions
+#   if [ -d "$ZSH_CUSTOM/plugins/zsh-completions" ]; then
+#     print_success "zsh-completions already installed"
+#   else
+#     print_info "Installing zsh-completions..."
+#     git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM/plugins/zsh-completions" || {
+#       print_error "Failed to install zsh-completions"
+#       exit 1
+#     }
+#     print_success "zsh-completions installed"
+#   fi
+# }
 
 # Setup configuration files
 setup_config_files() {
@@ -394,8 +394,8 @@ main() {
 
   detect_package_manager
   install_dependencies
-  install_oh_my_zsh
-  install_plugins
+  # install_oh_my_zsh
+  # install_plugins
   setup_config_files "$@"
   change_shell
 
